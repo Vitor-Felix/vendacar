@@ -19,19 +19,15 @@ class VehicleController(private val vehicleService: VehicleService) {
         return vehicle.toResponse()
     }
 
-    @GetMapping("/available")
-    fun getAvailableVehicles(): List<VehicleResponse> =
-        vehicleService.listAvailableVehicles().map { it.toResponse() }
-
-    @GetMapping("/available/sorted")
-    fun getAvailableVehiclesSortedByPrice(): List<VehicleResponse> = // 👈 novo endpoint
-        vehicleService.listAvailableVehiclesSortedByPrice().map { it.toResponse() }
-
-    @GetMapping("/sold")
-    fun getSoldVehicles(): List<VehicleResponse> =
-        vehicleService.listSoldVehicles().map { it.toResponse() }
-
     @GetMapping("/{id}")
     fun getVehicleById(@PathVariable id: Long): VehicleResponse? =
         vehicleService.findVehicleById(id)?.toResponse()
+
+    @GetMapping
+    fun getVehicles(
+        @RequestParam(required = false) sold: Boolean?,
+        @RequestParam(required = false, defaultValue = "false") orderByPrice: Boolean
+    ): List<VehicleResponse> {
+        return vehicleService.listVehicles(sold, orderByPrice).map { it.toResponse() }
+    }
 }

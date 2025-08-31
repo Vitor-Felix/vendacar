@@ -9,14 +9,17 @@ import org.springframework.stereotype.Repository
 @Repository
 interface SpringDataVehicleRepository : JpaRepository<Vehicle, Long> {
 
-    @Query("SELECT v FROM Vehicle v WHERE v.sold = false ORDER BY v.price ASC")
-    fun findAllAvailableOrderByPriceAsc(): List<Vehicle>
-
     @Query("SELECT v FROM Vehicle v WHERE v.sold = false")
     fun findAllAvailable(): List<Vehicle>
 
+    @Query("SELECT v FROM Vehicle v WHERE v.sold = false ORDER BY v.price ASC")
+    fun findAllAvailableOrderByPriceAsc(): List<Vehicle>
+
     @Query("SELECT v FROM Vehicle v WHERE v.sold = true")
     fun findAllSold(): List<Vehicle>
+
+    @Query("SELECT v FROM Vehicle v WHERE v.sold = true ORDER BY v.price ASC")
+    fun findAllSoldOrderByPriceAsc(): List<Vehicle>
 }
 
 @Repository
@@ -26,10 +29,15 @@ class JpaVehicleRepository(private val springRepo: SpringDataVehicleRepository) 
 
     override fun findById(id: Long): Vehicle? = springRepo.findById(id).orElse(null)
 
-    override fun findAllAvailable(): List<Vehicle> = springRepo.findAllAvailable()
-
-    override fun findAllSold(): List<Vehicle> = springRepo.findAllSold()
-
-    override fun findAllAvailableOrderByPriceAsc(): List<Vehicle> =
-        springRepo.findAllAvailableOrderByPriceAsc()
+    override fun findBySold(sold: Boolean?, orderByPrice: Boolean): List<Vehicle> {
+        return when {
+            sold == null && !orderByPrice -> springRepo.findAllAvailable()
+            sold == null && orderByPrice -> springRepo.findAllAvailableOrderByPriceAsc()
+            sold == true && !orderByPrice -> springRepo.findAllSold()
+            sold == true && orderByPrice -> springRepo.findAllSoldOrderByPriceAsc()
+            sold == false && !orderByPrice -> springRepo.findAllAvailable()
+            sold == false && orderByPrice -> springRepo.findAllAvailableOrderByPriceAsc()
+            else -> springRepo.findAllAvailable()
+        }
+    }
 }

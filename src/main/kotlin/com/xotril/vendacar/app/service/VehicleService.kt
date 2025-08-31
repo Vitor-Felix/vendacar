@@ -11,19 +11,11 @@ class VehicleService(private val vehicleRepository: VehicleRepository) {
         return vehicleRepository.save(vehicle)
     }
 
-    fun listAvailableVehicles(): List<Vehicle> {
-        return vehicleRepository.findAllAvailable()
-    }
-
-    fun listSoldVehicles(): List<Vehicle> {
-        return vehicleRepository.findAllSold()
-    }
-
     fun findVehicleById(id: Long): Vehicle? {
         return vehicleRepository.findById(id)
     }
 
-    fun listAvailableVehiclesSortedByPrice(): List<Vehicle> { // 👈 novo caso de uso
-        return vehicleRepository.findAllAvailableOrderByPriceAsc()
+    fun listVehicles(sold: Boolean?, orderByPrice: Boolean): List<Vehicle> {
+        return vehicleRepository.findBySold(sold, orderByPrice)
     }
 }

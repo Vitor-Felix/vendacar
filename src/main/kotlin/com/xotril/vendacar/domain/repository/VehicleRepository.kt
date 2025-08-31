@@ -5,7 +5,5 @@ import com.xotril.vendacar.domain.model.Vehicle
 interface VehicleRepository {
     fun save(vehicle: Vehicle): Vehicle
     fun findById(id: Long): Vehicle?
-    fun findAllAvailable(): List<Vehicle>
-    fun findAllSold(): List<Vehicle>
-    fun findAllAvailableOrderByPriceAsc(): List<Vehicle>
+    fun findBySold(sold: Boolean? = null, orderByPrice: Boolean = false): List<Vehicle>
 }
