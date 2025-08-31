@@ -5,6 +5,7 @@ import com.xotril.vendacar.domain.model.Vehicle
 import com.xotril.vendacar.domain.repository.SaleRepository
 import com.xotril.vendacar.domain.repository.VehicleRepository
 import com.xotril.vendacar.web.request.SaleRequest
+import com.xotril.vendacar.web.request.VehicleRequest
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -24,6 +25,19 @@ class VehicleService(
 
     fun listVehicles(sold: Boolean?, orderByPrice: Boolean): List<Vehicle> {
         return vehicleRepository.findBySold(sold, orderByPrice)
+    }
+
+    fun updateVehicle(vehicleId: Long, request: VehicleRequest): Vehicle {
+        val vehicle = vehicleRepository.findById(vehicleId)
+            ?: throw IllegalArgumentException("Vehicle with id $vehicleId not found")
+
+        vehicle.brand = request.brand
+        vehicle.model = request.model
+        vehicle.modelYear = request.modelYear
+        vehicle.color = request.color
+        vehicle.price = request.price
+
+        return vehicleRepository.save(vehicle)
     }
 
     fun sellVehicle(vehicleId: Long, request: SaleRequest): Vehicle {

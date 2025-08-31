@@ -32,6 +32,15 @@ class VehicleController(private val vehicleService: VehicleService) {
         return vehicleService.listVehicles(sold, orderByPrice).map { it.toResponse() }
     }
 
+    @PutMapping("/{id}")
+    fun updateVehicle(
+        @PathVariable id: Long,
+        @RequestBody request: VehicleRequest
+    ): VehicleResponse {
+        val vehicle = vehicleService.updateVehicle(id, request)
+        return vehicle.toResponse()
+    }
+
     @PostMapping("/{id}/sell")
     fun sellVehicle(
         @PathVariable id: Long,

@@ -9,11 +9,11 @@ data class Vehicle(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    val brand: String,
-    val model: String,
-    val modelYear: Int,
-    val color: String,
-    val price: Double,
+    var brand: String,
+    var model: String,
+    var modelYear: Int,
+    var color: String,
+    var price: Double,
 
     var sold: Boolean = false,
 
