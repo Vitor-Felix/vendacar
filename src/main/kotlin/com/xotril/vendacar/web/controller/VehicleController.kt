@@ -5,6 +5,7 @@ import com.xotril.vendacar.web.request.VehicleRequest
 import com.xotril.vendacar.web.response.VehicleResponse
 import com.xotril.vendacar.web.mapper.toDomain
 import com.xotril.vendacar.web.mapper.toResponse
+import com.xotril.vendacar.web.request.SaleRequest
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -29,5 +30,14 @@ class VehicleController(private val vehicleService: VehicleService) {
         @RequestParam(required = false, defaultValue = "false") orderByPrice: Boolean
     ): List<VehicleResponse> {
         return vehicleService.listVehicles(sold, orderByPrice).map { it.toResponse() }
+    }
+
+    @PostMapping("/{id}/sell")
+    fun sellVehicle(
+        @PathVariable id: Long,
+        @RequestBody request: SaleRequest
+    ): VehicleResponse {
+        val vehicle = vehicleService.sellVehicle(id, request)
+        return vehicle.toResponse()
     }
 }

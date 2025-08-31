@@ -2,6 +2,7 @@ package com.xotril.vendacar.web.mapper
 
 import com.xotril.vendacar.domain.model.Vehicle
 import com.xotril.vendacar.web.request.VehicleRequest
+import com.xotril.vendacar.web.response.SaleResponse
 import com.xotril.vendacar.web.response.VehicleResponse
 
 fun VehicleRequest.toDomain(): Vehicle =
@@ -23,5 +24,11 @@ fun Vehicle.toResponse(): VehicleResponse =
         price = this.price,
         sold = this.sold,
         createdAt = this.createdAt,
-        updatedAt = this.updatedAt
+        updatedAt = this.updatedAt,
+        sale = this.sale?.let {
+            SaleResponse(
+                buyerCpf = it.buyerCpf,
+                saleDate = it.saleDate
+            )
+        }
     )

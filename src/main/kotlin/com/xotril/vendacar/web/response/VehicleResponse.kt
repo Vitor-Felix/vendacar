@@ -11,5 +11,6 @@ data class VehicleResponse(
     val price: Double,
     val sold: Boolean,
     val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime?
+    val updatedAt: LocalDateTime?,
+    val sale: SaleResponse? = null
 )
