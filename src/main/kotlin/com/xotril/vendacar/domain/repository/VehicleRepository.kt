@@ -7,4 +7,5 @@ interface VehicleRepository {
     fun findById(id: Long): Vehicle?
     fun findAllAvailable(): List<Vehicle>
     fun findAllSold(): List<Vehicle>
+    fun findAllAvailableOrderByPriceAsc(): List<Vehicle>
 }

@@ -22,4 +22,8 @@ class VehicleService(private val vehicleRepository: VehicleRepository) {
     fun findVehicleById(id: Long): Vehicle? {
         return vehicleRepository.findById(id)
     }
+
+    fun listAvailableVehiclesSortedByPrice(): List<Vehicle> { // 👈 novo caso de uso
+        return vehicleRepository.findAllAvailableOrderByPriceAsc()
+    }
 }

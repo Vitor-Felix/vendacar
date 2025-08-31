@@ -11,7 +11,7 @@ data class Vehicle(
 
     val brand: String,
     val model: String,
-    val vehicleYear: Int, // <--- mudou aqui
+    val modelYear: Int,
     val color: String,
     val price: Double,
 
@@ -21,5 +21,10 @@ data class Vehicle(
     var sale: Sale? = null,
 
     val createdAt: LocalDateTime = LocalDateTime.now(),
-    var updatedAt: LocalDateTime = LocalDateTime.now()
-)
+    var updatedAt: LocalDateTime? = null
+) {
+    @PreUpdate
+    fun onUpdate() {
+        updatedAt = LocalDateTime.now()
+    }
+}
