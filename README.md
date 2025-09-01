@@ -46,3 +46,18 @@ Este projeto segue uma arquitetura hexagonal, que separa o núcleo de negócio d
 - Swagger UI: http://localhost:8080/swagger-ui.html
 - H2 Console: http://localhost:8080/h2-console
 - JDBC URL: jdbc:h2:mem:vendacar
+
+## 🚀 Rodando com Docker
+
+1. Build e suba os contêineres com:
+   ```bash
+   docker compose up --build
+   
+2. O Swagger (documentação da API) pode ser acessado em:
+   ```bash
+   http://localhost:8080/swagger-ui.html
+
+3. Para parar a aplicação:
+   ```bash
+   docker compose down
+   
