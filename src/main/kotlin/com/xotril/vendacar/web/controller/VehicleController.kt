@@ -1,6 +1,6 @@
 package com.xotril.vendacar.web.controller
 
-import com.xotril.vendacar.app.service.VehicleService
+import com.xotril.vendacar.app.VehicleFacade
 import com.xotril.vendacar.web.request.VehicleRequest
 import com.xotril.vendacar.web.response.VehicleResponse
 import com.xotril.vendacar.web.mapper.toDomain
@@ -11,25 +11,25 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/vehicles")
-class VehicleController(private val vehicleService: VehicleService) {
+class VehicleController(private val vehicleFacade: VehicleFacade) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createVehicle(@RequestBody request: VehicleRequest): VehicleResponse {
-        val vehicle = vehicleService.createVehicle(request.toDomain())
+        val vehicle = vehicleFacade.createVehicle(request.toDomain())
         return vehicle.toResponse()
     }
 
     @GetMapping("/{id}")
     fun getVehicleById(@PathVariable id: Long): VehicleResponse? =
-        vehicleService.findVehicleById(id)?.toResponse()
+        vehicleFacade.findVehicleById(id)?.toResponse()
 
     @GetMapping
     fun getVehicles(
         @RequestParam(required = false) sold: Boolean?,
         @RequestParam(required = false, defaultValue = "false") orderByPrice: Boolean
     ): List<VehicleResponse> {
-        return vehicleService.listVehicles(sold, orderByPrice).map { it.toResponse() }
+        return vehicleFacade.listVehicles(sold, orderByPrice).map { it.toResponse() }
     }
 
     @PutMapping("/{id}")
@@ -37,7 +37,7 @@ class VehicleController(private val vehicleService: VehicleService) {
         @PathVariable id: Long,
         @RequestBody request: VehicleRequest
     ): VehicleResponse {
-        val vehicle = vehicleService.updateVehicle(id, request)
+        val vehicle = vehicleFacade.updateVehicle(id, request)
         return vehicle.toResponse()
     }
 
@@ -46,7 +46,7 @@ class VehicleController(private val vehicleService: VehicleService) {
         @PathVariable id: Long,
         @RequestBody request: SaleRequest
     ): VehicleResponse {
-        val vehicle = vehicleService.sellVehicle(id, request)
+        val vehicle = vehicleFacade.sellVehicle(id, request)
         return vehicle.toResponse()
     }
 }

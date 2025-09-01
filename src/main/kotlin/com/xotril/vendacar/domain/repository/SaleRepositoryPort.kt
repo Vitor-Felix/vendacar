@@ -2,6 +2,6 @@ package com.xotril.vendacar.domain.repository
 
 import com.xotril.vendacar.domain.model.Sale
 
-interface SaleRepository {
+interface SaleRepositoryPort {
     fun save(sale: Sale): Sale
 }

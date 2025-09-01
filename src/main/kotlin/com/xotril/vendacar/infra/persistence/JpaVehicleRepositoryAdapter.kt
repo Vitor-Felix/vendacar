@@ -1,7 +1,7 @@
 package com.xotril.vendacar.infra.persistence
 
 import com.xotril.vendacar.domain.model.Vehicle
-import com.xotril.vendacar.domain.repository.VehicleRepository
+import com.xotril.vendacar.domain.repository.VehicleRepositoryPort
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
@@ -23,7 +23,7 @@ interface SpringDataVehicleRepository : JpaRepository<Vehicle, Long> {
 }
 
 @Repository
-class JpaVehicleRepository(private val springRepo: SpringDataVehicleRepository) : VehicleRepository {
+class JpaVehicleRepositoryAdapter(private val springRepo: SpringDataVehicleRepository) : VehicleRepositoryPort {
 
     override fun save(vehicle: Vehicle): Vehicle = springRepo.save(vehicle)
 

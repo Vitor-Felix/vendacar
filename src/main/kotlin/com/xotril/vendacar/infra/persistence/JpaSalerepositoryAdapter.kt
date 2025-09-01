@@ -1,7 +1,7 @@
 package com.xotril.vendacar.infra.persistence
 
 import com.xotril.vendacar.domain.model.Sale
-import com.xotril.vendacar.domain.repository.SaleRepository
+import com.xotril.vendacar.domain.repository.SaleRepositoryPort
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository
 interface SpringDataSaleRepository : JpaRepository<Sale, Long>
 
 @Repository
-class JpaSaleRepository(
+class JpaSaleRepositoryAdapter(
     private val springRepo: SpringDataSaleRepository
-) : SaleRepository {
+) : SaleRepositoryPort {
     override fun save(sale: Sale): Sale = springRepo.save(sale)
 }
