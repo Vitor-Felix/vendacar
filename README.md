@@ -27,6 +27,26 @@ Este projeto segue uma arquitetura hexagonal, que separa o núcleo de negócio d
 
 - **resources** → arquivos de configuração e assets estáticos.
 
+## 📌 API Endpoints
+
+A API expõe endpoints REST para gerenciar veículos e registrar vendas.
+
+- **POST /vehicles** → Cadastra um novo veículo.
+
+- **GET /vehicles/{id}** → Consulta os dados de um veículo específico.
+
+- **GET /vehicles** → Lista veículos.
+
+  - Parâmetros opcionais:
+
+    - `sold` → filtra por vendidos (`true`) ou disponíveis (`false`).
+
+    - `orderByPrice` → ordena o resultado por preço (`true`), padrão é `false`.
+
+- **PUT /vehicles/{id}** → Atualiza os dados de um veículo.
+
+- **POST /vehicles/{id}/sell** → Registra a venda de um veículo.
+
 ---
 
 ## 🚀 Rodando Localmente
