@@ -3,6 +3,7 @@ package com.xotril.vendacar.app
 import com.xotril.vendacar.app.usecase.CreateVehicleUseCase
 import com.xotril.vendacar.app.usecase.ListVehiclesUseCase
 import com.xotril.vendacar.app.usecase.SellVehicleUseCase
+import com.xotril.vendacar.app.usecase.UpdatePaymentStatusUseCase
 import com.xotril.vendacar.app.usecase.UpdateVehicleUseCase
 import com.xotril.vendacar.domain.model.Vehicle
 import com.xotril.vendacar.web.request.SaleRequest
@@ -14,7 +15,8 @@ class VehicleFacade(
     private val createVehicleUseCase: CreateVehicleUseCase,
     private val updateVehicleUseCase: UpdateVehicleUseCase,
     private val sellVehicleUseCase: SellVehicleUseCase,
-    private val listVehiclesUseCase: ListVehiclesUseCase
+    private val listVehiclesUseCase: ListVehiclesUseCase,
+    private val updatePaymentStatusUseCase: UpdatePaymentStatusUseCase
 ) {
 
     fun createVehicle(vehicle: Vehicle): Vehicle =
@@ -31,4 +33,7 @@ class VehicleFacade(
 
     fun listVehicles(sold: Boolean?, orderByPrice: Boolean): List<Vehicle> =
         listVehiclesUseCase.execute(sold, orderByPrice)
+
+    fun updatePaymentStatus(paymentCode: String, status: String) =
+        updatePaymentStatusUseCase.execute(paymentCode, status)
 }

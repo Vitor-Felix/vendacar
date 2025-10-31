@@ -23,4 +23,8 @@ class UseCaseConfig(
 
     @Bean
     fun listVehiclesUseCase() = ListVehiclesUseCase(vehicleRepositoryPort)
+
+    @Bean
+    fun updatePaymentStatusUseCase() =
+        UpdatePaymentStatusUseCase(saleRepositoryPort, vehicleRepositoryPort)
 }

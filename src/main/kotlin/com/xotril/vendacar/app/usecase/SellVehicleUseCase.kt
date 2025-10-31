@@ -17,7 +17,6 @@ class SellVehicleUseCase(
 
         val sale = Sale(buyerCpf = buyerCpf, saleDate = LocalDateTime.now(), vehicle = vehicle)
         vehicle.sale = sale
-        vehicle.sold = true
 
         saleRepositoryPort.save(sale)
         return vehicleRepositoryPort.save(vehicle)

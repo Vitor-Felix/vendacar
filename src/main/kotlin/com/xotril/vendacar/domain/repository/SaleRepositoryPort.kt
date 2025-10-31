@@ -4,4 +4,6 @@ import com.xotril.vendacar.domain.model.Sale
 
 interface SaleRepositoryPort {
     fun save(sale: Sale): Sale
+
+    fun findByPaymentCode(paymentCode: String): Sale?
 }
