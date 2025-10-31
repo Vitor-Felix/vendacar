@@ -1,11 +1,34 @@
 version: "3.9"
 
 services:
+  postgres:
+    image: postgres:17
+    container_name: vendacar-db
+    environment:
+      POSTGRES_USER: vendacar
+      POSTGRES_PASSWORD: vendacar
+      POSTGRES_DB: vendacar
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
   vendacar:
     build: .
     container_name: vendacar-app
     ports:
       - "8080:8080"
     environment:
+      SPRING_APPLICATION_NAME: vendacar
       SPRING_PROFILES_ACTIVE: docker
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_NAME: vendacar
+      DB_USER: vendacar
+      DB_PASSWORD: vendacar
+    depends_on:
+      - postgres
     restart: unless-stopped
+
+volumes:
+  pgdata:
