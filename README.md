@@ -80,4 +80,38 @@ A API expõe endpoints REST para gerenciar veículos e registrar vendas.
 3. Para parar a aplicação:
    ```bash
    docker compose down
+
+## ☸️ Rodando com Kubernetes (Minikube)
+Para executar o projeto no Kubernetes, usamos o Minikube para simular um cluster local.
+Os manifests estão localizados na pasta deploy/ e incluem os arquivos:
+- configmap.yaml → define variáveis de ambiente não sensíveis
+- secret.yaml → armazena credenciais e dados sensíveis (como senhas)
+- deploy-postgres.yaml → configura o banco de dados PostgreSQL
+- deploy-vendacar.yaml → define o deployment e service da aplicação
+
+1. Inicie o Minikube:
+   ```bash
+   minikube start
+
+2. Crie um namespace para o projeto:
+   ```bash
+   kubectl create namespace vendacar
+
+3. Construa e carregue a imagem Docker dentro do Minikube:
+   O Minikube usa um Docker interno, separado do da sua máquina.
+   Por isso, é necessário carregar a imagem para dentro dele.
+   ```bash
+    eval $(minikube -p minikube docker-env)
+    docker build . -t vendacar
+
+4. Aplique os manifestos:
+    ```bash
+    kubectl apply -f deploy/ -n vendacar
    
+5. Verifique se os pods estão rodando:
+    ```bash
+    kubectl get pods -n vendacar
+
+6. Expose o service do vendacar via Minikube:
+    ```bash
+    minikube service vendacar-service -n vendacar

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vendacar-config
+  namespace: vendacar
+data:
+  SPRING_APPLICATION_NAME: "vendacar"
+  SPRING_PROFILES_ACTIVE: "docker"

@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vendacar-app
+  namespace: vendacar
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vendacar-app
+  template:
+    metadata:
+      labels:
+        app: vendacar-app
+    spec:
+      containers:
+        - name: vendacar
+          image: vendacar:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: vendacar-config
+            - secretRef:
+                name: vendacar-secret
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://vendacar-db-service:5432/vendacar
+            - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+              value: org.postgresql.Driver
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: vendacar-secret
+                  key: POSTGRES_USER
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: vendacar-secret
+                  key: POSTGRES_PASSWORD
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vendacar-service
+  namespace: vendacar
+spec:
+  type: NodePort
+  selector:
+    app: vendacar-app
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30080
