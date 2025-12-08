@@ -16,7 +16,7 @@ class VehicleController(private val vehicleFacade: VehicleFacade) {
 
     @Operation(
         summary = "Register a vehicle for sale",
-        description = "Creates a new vehicle listing with brand, model, year, color, and price details"
+        description = "Creates a new vehicle listing with brand, model, year, color, and price"
     )
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
