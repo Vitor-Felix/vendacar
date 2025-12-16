@@ -51,7 +51,7 @@ class VehicleController(private val vehicleFacade: VehicleFacade) {
 
     @Operation(
         summary = "Edit vehicle data",
-        description = "Updates the information of an existing vehicle in the system test"
+        description = "Updates the information of an existing vehicle in the system"
     )
     @PutMapping("/{id}")
     fun updateVehicle(
