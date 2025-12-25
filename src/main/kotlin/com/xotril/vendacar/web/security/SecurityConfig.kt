@@ -1,0 +1,28 @@
+package com.xotril.vendacar.web.security
+
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
+import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.web.SecurityFilterChain
+
+@Configuration
+@EnableWebSecurity
+class SecurityConfig {
+
+    @Bean
+    fun filterChain(http: HttpSecurity): SecurityFilterChain {
+        http
+            .csrf { it.disable() }
+            .authorizeHttpRequests {
+                it
+                    .requestMatchers("/webhook/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/vehicles/**").permitAll()
+                    .anyRequest().authenticated()
+            }
+            .oauth2ResourceServer { it.jwt() }
+
+        return http.build()
+    }
+}
