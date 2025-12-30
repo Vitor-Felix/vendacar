@@ -16,7 +16,7 @@ class VehicleController(private val vehicleFacade: VehicleFacade) {
 
     @Operation(
         summary = "Register a vehicle for sale",
-        description = "Creates a new vehicle listing with brand, model, year, color, and price"
+        description = "Creates a new vehicle listing with brand, model, year, color, and price",
     )
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -64,7 +64,8 @@ class VehicleController(private val vehicleFacade: VehicleFacade) {
 
     @Operation(
         summary = "Sell a vehicle",
-        description = "Marks a specific vehicle as sold with sale details (date, price, buyer info)"
+        description = "Marks a specific vehicle as sold with sale details (date, price, buyer info)",
+        security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearerAuth")]
     )
     @PostMapping("/{id}/sell")
     fun sellVehicle(
