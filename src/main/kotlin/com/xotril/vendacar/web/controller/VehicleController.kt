@@ -1,11 +1,10 @@
 package com.xotril.vendacar.web.controller
 
 import com.xotril.vendacar.app.VehicleFacade
-import com.xotril.vendacar.web.request.VehicleRequest
-import com.xotril.vendacar.web.response.VehicleResponse
 import com.xotril.vendacar.web.mapper.toDomain
 import com.xotril.vendacar.web.mapper.toResponse
-import com.xotril.vendacar.web.request.SaleRequest
+import com.xotril.vendacar.web.request.VehicleRequest
+import com.xotril.vendacar.web.response.VehicleResponse
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -63,16 +62,20 @@ class VehicleController(private val vehicleFacade: VehicleFacade) {
     }
 
     @Operation(
-        summary = "Sell a vehicle",
-        description = "Marks a specific vehicle as sold with sale details (date, price, buyer info)",
+        summary = "Buy a vehicle",
+        description = "Buyer must be logged in",
         security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearerAuth")]
     )
-    @PostMapping("/{id}/sell")
-    fun sellVehicle(
+    @PostMapping("/{id}/buy")
+    fun buyVehicle(
         @PathVariable id: Long,
-        @RequestBody request: SaleRequest
+        authentication: org.springframework.security.core.Authentication
     ): VehicleResponse {
-        val vehicle = vehicleFacade.sellVehicle(id, request)
+
+        val token = authentication.principal as org.springframework.security.oauth2.jwt.Jwt
+        val cpf = token.getClaimAsString("cpf")
+
+        val vehicle = vehicleFacade.buyVehicle(id, cpf)
         return vehicle.toResponse()
     }
 }

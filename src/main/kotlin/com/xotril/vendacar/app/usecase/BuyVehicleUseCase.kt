@@ -6,7 +6,7 @@ import com.xotril.vendacar.domain.repository.SaleRepositoryPort
 import com.xotril.vendacar.domain.repository.VehicleRepositoryPort
 import java.time.LocalDateTime
 
-class SellVehicleUseCase(
+class BuyVehicleUseCase(
     private val vehicleRepositoryPort: VehicleRepositoryPort,
     private val saleRepositoryPort: SaleRepositoryPort
 ) {

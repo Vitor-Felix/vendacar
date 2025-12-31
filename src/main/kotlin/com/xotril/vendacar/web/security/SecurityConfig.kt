@@ -19,15 +19,20 @@ class SecurityConfig {
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests {
                 it
-                    .requestMatchers("/webhook/**").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/vehicles/**").permitAll()
-
+                    // 1. URLs do Swagger e Webhooks sempre abertas
                     .requestMatchers(
                         "/swagger-ui/**",
                         "/swagger-ui.html",
                         "/v3/api-docs/**",
-                        "/webjars/**"
+                        "/webjars/**",
+                        "/webhook/**"
                     ).permitAll()
+
+                    .requestMatchers(HttpMethod.POST, "/vehicles/{id}/buy").authenticated()
+
+                    .requestMatchers("/vehicles/**").permitAll()
+
+                    .requestMatchers("/webhook/**").permitAll()
 
                     .anyRequest().authenticated()
             }
