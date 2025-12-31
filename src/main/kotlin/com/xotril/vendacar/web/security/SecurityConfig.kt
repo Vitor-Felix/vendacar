@@ -1,0 +1,45 @@
+package com.xotril.vendacar.web.security
+
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
+import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.web.SecurityFilterChain
+
+@Configuration
+@EnableWebSecurity
+class SecurityConfig {
+
+    @Bean
+    fun filterChain(http: HttpSecurity): SecurityFilterChain {
+        http
+            .csrf { it.disable() }
+            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+            .authorizeHttpRequests {
+                it
+                    // 1. URLs do Swagger e Webhooks sempre abertas
+                    .requestMatchers(
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/v3/api-docs/**",
+                        "/webjars/**",
+                        "/webhook/**"
+                    ).permitAll()
+
+                    .requestMatchers(HttpMethod.POST, "/vehicles/{id}/buy").authenticated()
+
+                    .requestMatchers("/vehicles/**").permitAll()
+
+                    .requestMatchers("/webhook/**").permitAll()
+
+                    .requestMatchers("/auth/**").permitAll()
+
+                    .anyRequest().authenticated()
+            }
+            .oauth2ResourceServer { it.jwt() }
+
+        return http.build()
+    }
+}
