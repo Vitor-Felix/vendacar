@@ -19,7 +19,7 @@ class UseCaseConfig(
     fun updateVehicleUseCase() = UpdateVehicleUseCase(vehicleRepositoryPort)
 
     @Bean
-    fun sellVehicleUseCase() = SellVehicleUseCase(vehicleRepositoryPort, saleRepositoryPort)
+    fun sellVehicleUseCase() = BuyVehicleUseCase(vehicleRepositoryPort, saleRepositoryPort)
 
     @Bean
     fun listVehiclesUseCase() = ListVehiclesUseCase(vehicleRepositoryPort)

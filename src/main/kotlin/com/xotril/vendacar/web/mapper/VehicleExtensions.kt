@@ -28,7 +28,8 @@ fun Vehicle.toResponse(): VehicleResponse =
         sale = this.sale?.let {
             SaleResponse(
                 buyerCpf = it.buyerCpf,
-                saleDate = it.saleDate
+                saleDate = it.saleDate,
+                code = it.paymentCode
             )
         }
     )
