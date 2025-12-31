@@ -34,6 +34,8 @@ class SecurityConfig {
 
                     .requestMatchers("/webhook/**").permitAll()
 
+                    .requestMatchers("/auth/**").permitAll()
+
                     .anyRequest().authenticated()
             }
             .oauth2ResourceServer { it.jwt() }
