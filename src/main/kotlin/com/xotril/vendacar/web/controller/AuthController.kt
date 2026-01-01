@@ -78,8 +78,10 @@ class AuthController(
             "username" to request.username,
             "email" to request.email,
             "enabled" to true,
+            "firstName" to request.firstName,
+            "lastName" to request.lastName,
             "attributes" to mapOf(
-                "cpf" to listOf(request.cpf) // Keycloak exige LISTA sempre
+                "cpf" to listOf(request.cpf)
             ),
             "credentials" to listOf(
                 mapOf(
@@ -106,6 +108,8 @@ class AuthController(
         val email: String,
         val password: String,
         val cpf: String,
+        val firstName: String,
+        val lastName: String
     )
     fun getAdminAccessToken(): String {
         val formData = LinkedMultiValueMap<String, String>().apply {
